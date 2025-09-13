@@ -1,0 +1,811 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Spend Schedule - Quản lý chi tiêu định kỳ</title>
+    
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body class="bg-gradient">
+    <!-- Header -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm sticky-top">
+        <div class="container-fluid">
+            <!-- Logo -->
+            <a class="navbar-brand fw-bold text-primary d-flex align-items-center" href="#">
+                <i class="bi bi-calendar-check me-2 fs-4"></i>
+                Spend Schedule
+            </a>
+            
+            <!-- Mobile toggle button -->
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            
+            <!-- Navigation -->
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav mx-auto">
+                    <li class="nav-item">
+                        <a class="nav-link fw-semibold active" href="#">Dashboard</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link fw-semibold" href="#">Expenses</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link fw-semibold" href="#">Schedule</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link fw-semibold" href="#">Reports</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link fw-semibold" href="#">Settings</a>
+                    </li>
+                </ul>
+                
+                <!-- Auth Buttons -->
+                <div id="authButtons" class="d-flex gap-2">
+                    <button class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#loginModal">
+                        <i class="bi bi-box-arrow-in-right me-1"></i>Đăng nhập
+                    </button>
+                    <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#registerModal">
+                        <i class="bi bi-person-plus me-1"></i>Đăng ký
+                    </button>
+                </div>
+                
+                <!-- User Profile -->
+                <div id="userProfile" class="dropdown" style="display: none;">
+                    <button class="btn btn-outline-secondary dropdown-toggle d-flex align-items-center" type="button" data-bs-toggle="dropdown">
+                        <i class="bi bi-person-circle me-2"></i>
+                        <span id="userDisplayName">User</span>
+                    </button>
+                    <ul class="dropdown-menu dropdown-menu-end">
+                        <li><a class="dropdown-item" href="#"><i class="bi bi-person me-2"></i>Profile</a></li>
+                        <li><a class="dropdown-item" href="#"><i class="bi bi-gear me-2"></i>Settings</a></li>
+                        <li><hr class="dropdown-divider"></li>
+                        <li><a class="dropdown-item text-danger" href="#" id="logoutBtn"><i class="bi bi-box-arrow-right me-2"></i>Đăng xuất</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="container-fluid py-4">
+        <!-- Welcome Screen -->
+        <div id="welcomeScreen" class="row justify-content-center">
+            <div class="col-lg-10">
+                <div class="text-center mb-5">
+                    <div class="welcome-icon mb-4">
+                        <i class="bi bi-calendar-check display-1 text-primary"></i>
+                    </div>
+                    <h1 class="display-4 fw-bold text-white mb-3">Spend Schedule</h1>
+                    <p class="lead text-white-50 mb-5">Quản lý các khoản chi tiêu định kỳ một cách thông minh và hiệu quả</p>
+                    
+                    <div class="row g-4 mb-5">
+                        <div class="col-md-4">
+                            <div class="card h-100 border-0 shadow-lg bg-white bg-opacity-90">
+                                <div class="card-body text-center p-4">
+                                    <i class="bi bi-graph-up text-success display-6 mb-3"></i>
+                                    <h5 class="card-title fw-bold">Theo dõi chi tiêu</h5>
+                                    <p class="card-text text-muted">Quản lý và theo dõi các khoản chi tiêu định kỳ</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="card h-100 border-0 shadow-lg bg-white bg-opacity-90">
+                                <div class="card-body text-center p-4">
+                                    <i class="bi bi-bell text-warning display-6 mb-3"></i>
+                                    <h5 class="card-title fw-bold">Nhắc nhở thông minh</h5>
+                                    <p class="card-text text-muted">Nhận thông báo trước khi đến hạn thanh toán</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="card h-100 border-0 shadow-lg bg-white bg-opacity-90">
+                                <div class="card-body text-center p-4">
+                                    <i class="bi bi-pie-chart text-info display-6 mb-3"></i>
+                                    <h5 class="card-title fw-bold">Báo cáo chi tiết</h5>
+                                    <p class="card-text text-muted">Phân tích và báo cáo chi tiêu hàng tháng</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="d-flex gap-3 justify-content-center">
+                        <button class="btn btn-primary btn-lg px-4" data-bs-toggle="modal" data-bs-target="#registerModal">
+                            <i class="bi bi-person-plus me-2"></i>Bắt đầu ngay
+                        </button>
+                        <button class="btn btn-outline-light btn-lg px-4" data-bs-toggle="modal" data-bs-target="#loginModal">
+                            <i class="bi bi-box-arrow-in-right me-2"></i>Đăng nhập
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- App Content -->
+        <div id="appContent" class="row" style="display: none;">
+            <div class="col-12">
+                <!-- Page Header -->
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                    <div>
+                        <h1 class="h2 fw-bold text-white mb-2">
+                            <i class="bi bi-calendar-check me-2"></i>Expense Management
+                        </h1>
+                        <p class="text-white-50 mb-0">Quản lý chi tiêu định kỳ và giao dịch hàng ngày</p>
+                    </div>
+                </div>
+
+                <!-- Navigation Tabs -->
+                <div class="card shadow-lg mb-4 bg-white bg-opacity-95">
+                    <div class="card-body p-0">
+                        <ul class="nav nav-tabs nav-fill" id="expenseTabs" role="tablist">
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link active fw-semibold" id="schedules-tab" data-bs-toggle="tab" data-bs-target="#schedules" type="button" role="tab">
+                                    <i class="bi bi-calendar-check me-2"></i>Scheduled Expenses
+                                </button>
+                            </li>
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link fw-semibold" id="transactions-tab" data-bs-toggle="tab" data-bs-target="#transactions" type="button" role="tab">
+                                    <i class="bi bi-cash-coin me-2"></i>Transactions
+                                </button>
+                            </li>
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link fw-semibold" id="analytics-tab" data-bs-toggle="tab" data-bs-target="#analytics" type="button" role="tab">
+                                    <i class="bi bi-graph-up me-2"></i>Analytics
+                                </button>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Tab Content -->
+                <div class="tab-content" id="expenseTabsContent">
+                    <!-- Schedules Tab -->
+                    <div class="tab-pane fade show active" id="schedules" role="tabpanel">
+
+                <!-- Toolbar -->
+                <div class="card shadow-lg mb-4 bg-white bg-opacity-95">
+                    <div class="card-body">
+                        <div class="row align-items-center g-3">
+                            <div class="col-lg-2 col-md-6">
+                                <button class="btn btn-primary btn-lg w-100" id="addScheduleBtn">
+                                    <i class="bi bi-plus-circle me-2"></i>Add Schedule
+                                </button>
+                            </div>
+                            <div class="col-lg-2 col-md-6">
+                                <button class="btn btn-success btn-lg w-100" id="addTransactionBtn">
+                                    <i class="bi bi-cash-coin me-2"></i>Add Transaction
+                                </button>
+                            </div>
+                            
+                            <div class="col-lg-9">
+                                <div class="row g-3">
+                                    <div class="col-lg-3 col-md-6">
+                                        <label for="timeFilter" class="form-label fw-semibold">Time:</label>
+                                        <select id="timeFilter" class="form-select">
+                                            <option value="all">All</option>
+                                            <option value="upcoming">Upcoming</option>
+                                            <option value="past">Past</option>
+                                        </select>
+                                    </div>
+                                    
+                                    <div class="col-lg-3 col-md-6">
+                                        <label for="categoryFilter" class="form-label fw-semibold">Category:</label>
+                                        <select id="categoryFilter" class="form-select">
+                                            <option value="all">All Categories</option>
+                                            <option value="utilities">Utilities</option>
+                                            <option value="subscriptions">Subscriptions</option>
+                                            <option value="health">Health</option>
+                                            <option value="entertainment">Entertainment</option>
+                                        </select>
+                                    </div>
+                                    
+                                    <div class="col-lg-3 col-md-6">
+                                        <label for="statusFilter" class="form-label fw-semibold">Status:</label>
+                                        <select id="statusFilter" class="form-select">
+                                            <option value="all">All</option>
+                                            <option value="active">Active</option>
+                                            <option value="paused">Paused</option>
+                                        </select>
+                                    </div>
+                                    
+                                    <div class="col-lg-3 col-md-6">
+                                        <label for="searchInput" class="form-label fw-semibold">Search:</label>
+                                        <div class="input-group">
+                                            <span class="input-group-text"><i class="bi bi-search"></i></span>
+                                            <input type="text" id="searchInput" class="form-control" placeholder="Search schedules...">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Schedule List -->
+                <div class="card shadow-lg bg-white bg-opacity-95">
+                    <div class="card-body p-0">
+                        <div id="scheduleList">
+                            <!-- Schedule items will be dynamically generated here -->
+                        </div>
+                    </div>
+                </div>
+
+                        <!-- Summary Cards -->
+                        <div class="row mt-4">
+                            <div class="col-lg-4 col-md-6 mb-3">
+                                <div class="card bg-primary text-white h-100">
+                                    <div class="card-body text-center">
+                                        <i class="bi bi-calendar-check display-6 mb-3"></i>
+                                        <h5 class="card-title">Total Schedules</h5>
+                                        <h2 class="fw-bold" id="totalSchedules">0</h2>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-4 col-md-6 mb-3">
+                                <div class="card bg-success text-white h-100">
+                                    <div class="card-body text-center">
+                                        <i class="bi bi-currency-dollar display-6 mb-3"></i>
+                                        <h5 class="card-title">This Month</h5>
+                                        <h2 class="fw-bold" id="monthlyTotal">$0</h2>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-4 col-md-6 mb-3">
+                                <div class="card bg-warning text-white h-100">
+                                    <div class="card-body text-center">
+                                        <i class="bi bi-clock display-6 mb-3"></i>
+                                        <h5 class="card-title">Next Payment</h5>
+                                        <h6 class="fw-bold" id="nextPayment">-</h6>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Transactions Tab -->
+                    <div class="tab-pane fade" id="transactions" role="tabpanel">
+                        <!-- Transaction Toolbar -->
+                        <div class="card shadow-lg mb-4 bg-white bg-opacity-95">
+                            <div class="card-body">
+                                <div class="row align-items-center g-3">
+                                    <div class="col-lg-3 col-md-6">
+                                        <button class="btn btn-success btn-lg w-100" id="addTransactionBtn2">
+                                            <i class="bi bi-plus-circle me-2"></i>Add Transaction
+                                        </button>
+                                    </div>
+                                    
+                                    <div class="col-lg-9">
+                                        <div class="row g-3">
+                                            <div class="col-lg-3 col-md-6">
+                                                <label for="transactionDateFilter" class="form-label fw-semibold">Date Range:</label>
+                                                <select id="transactionDateFilter" class="form-select">
+                                                    <option value="all">All Time</option>
+                                                    <option value="today">Today</option>
+                                                    <option value="week">This Week</option>
+                                                    <option value="month">This Month</option>
+                                                    <option value="year">This Year</option>
+                                                </select>
+                                            </div>
+                                            
+                                            <div class="col-lg-3 col-md-6">
+                                                <label for="transactionCategoryFilter" class="form-label fw-semibold">Category:</label>
+                                                <select id="transactionCategoryFilter" class="form-select">
+                                                    <option value="all">All Categories</option>
+                                                    <option value="food">Food & Dining</option>
+                                                    <option value="transport">Transportation</option>
+                                                    <option value="shopping">Shopping</option>
+                                                    <option value="entertainment">Entertainment</option>
+                                                    <option value="utilities">Utilities</option>
+                                                    <option value="health">Health & Medical</option>
+                                                    <option value="education">Education</option>
+                                                    <option value="other">Other</option>
+                                                </select>
+                                            </div>
+                                            
+                                            <div class="col-lg-3 col-md-6">
+                                                <label for="transactionTypeFilter" class="form-label fw-semibold">Type:</label>
+                                                <select id="transactionTypeFilter" class="form-select">
+                                                    <option value="all">All</option>
+                                                    <option value="income">Income</option>
+                                                    <option value="expense">Expense</option>
+                                                </select>
+                                            </div>
+                                            
+                                            <div class="col-lg-3 col-md-6">
+                                                <label for="transactionSearchInput" class="form-label fw-semibold">Search:</label>
+                                                <div class="input-group">
+                                                    <span class="input-group-text"><i class="bi bi-search"></i></span>
+                                                    <input type="text" id="transactionSearchInput" class="form-control" placeholder="Search transactions...">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Transaction List -->
+                        <div class="card shadow-lg bg-white bg-opacity-95">
+                            <div class="card-body p-0">
+                                <div id="transactionList">
+                                    <!-- Transaction items will be dynamically generated here -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Analytics Tab -->
+                    <div class="tab-pane fade" id="analytics" role="tabpanel">
+                        <!-- Analytics Cards -->
+                        <div class="row mb-4">
+                            <div class="col-lg-3 col-md-6 mb-3">
+                                <div class="card bg-info text-white h-100">
+                                    <div class="card-body text-center">
+                                        <i class="bi bi-graph-up display-6 mb-3"></i>
+                                        <h5 class="card-title">Total Spent</h5>
+                                        <h2 class="fw-bold" id="totalSpent">$0</h2>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-3 col-md-6 mb-3">
+                                <div class="card bg-warning text-white h-100">
+                                    <div class="card-body text-center">
+                                        <i class="bi bi-calendar-month display-6 mb-3"></i>
+                                        <h5 class="card-title">This Month</h5>
+                                        <h2 class="fw-bold" id="monthlySpent">$0</h2>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-3 col-md-6 mb-3">
+                                <div class="card bg-success text-white h-100">
+                                    <div class="card-body text-center">
+                                        <i class="bi bi-arrow-up-circle display-6 mb-3"></i>
+                                        <h5 class="card-title">Total Income</h5>
+                                        <h2 class="fw-bold" id="totalIncome">$0</h2>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-3 col-md-6 mb-3">
+                                <div class="card bg-danger text-white h-100">
+                                    <div class="card-body text-center">
+                                        <i class="bi bi-exclamation-triangle display-6 mb-3"></i>
+                                        <h5 class="card-title">Over Budget</h5>
+                                        <h2 class="fw-bold" id="overBudget">0</h2>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Category Breakdown -->
+                        <div class="row">
+                            <div class="col-lg-8 mb-4">
+                                <div class="card shadow-lg bg-white bg-opacity-95">
+                                    <div class="card-header bg-primary text-white">
+                                        <h5 class="mb-0"><i class="bi bi-pie-chart me-2"></i>Expenses by Category</h5>
+                                    </div>
+                                    <div class="card-body">
+                                        <div id="categoryChart">
+                                            <!-- Chart will be rendered here -->
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-4 mb-4">
+                                <div class="card shadow-lg bg-white bg-opacity-95">
+                                    <div class="card-header bg-warning text-white">
+                                        <h5 class="mb-0"><i class="bi bi-exclamation-triangle me-2"></i>Budget Alerts</h5>
+                                    </div>
+                                    <div class="card-body">
+                                        <div id="budgetAlerts">
+                                            <!-- Budget alerts will be shown here -->
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Login Modal -->
+    <div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="loginModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content border-0 shadow-lg">
+                <div class="modal-header bg-primary text-white border-0">
+                    <h5 class="modal-title fw-bold" id="loginModalLabel">
+                        <i class="bi bi-box-arrow-in-right me-2"></i>Đăng nhập
+                    </h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body p-4">
+                    <form id="loginForm">
+                        <div class="mb-3">
+                            <label for="loginEmail" class="form-label fw-semibold">Email</label>
+                            <div class="input-group">
+                                <span class="input-group-text"><i class="bi bi-envelope"></i></span>
+                                <input type="email" class="form-control" id="loginEmail" required>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="loginPassword" class="form-label fw-semibold">Mật khẩu</label>
+                            <div class="input-group">
+                                <span class="input-group-text"><i class="bi bi-lock"></i></span>
+                                <input type="password" class="form-control" id="loginPassword" required>
+                                <button class="btn btn-outline-secondary" type="button" id="toggleLoginPassword">
+                                    <i class="bi bi-eye"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="mb-3 form-check">
+                            <input type="checkbox" class="form-check-input" id="rememberMe">
+                            <label class="form-check-label" for="rememberMe">Ghi nhớ đăng nhập</label>
+                        </div>
+                        <div class="d-grid">
+                            <button type="submit" class="btn btn-primary btn-lg">
+                                <i class="bi bi-box-arrow-in-right me-2"></i>Đăng nhập
+                            </button>
+                        </div>
+                    </form>
+                    <div class="text-center mt-3">
+                        <p class="mb-0">Chưa có tài khoản? 
+                            <a href="#" data-bs-dismiss="modal" data-bs-toggle="modal" data-bs-target="#registerModal" class="text-primary fw-semibold">Đăng ký ngay</a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Register Modal -->
+    <div class="modal fade" id="registerModal" tabindex="-1" aria-labelledby="registerModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content border-0 shadow-lg">
+                <div class="modal-header bg-success text-white border-0">
+                    <h5 class="modal-title fw-bold" id="registerModalLabel">
+                        <i class="bi bi-person-plus me-2"></i>Đăng ký tài khoản
+                    </h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body p-4">
+                    <form id="registerForm">
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="registerFirstName" class="form-label fw-semibold">Họ</label>
+                                <div class="input-group">
+                                    <span class="input-group-text"><i class="bi bi-person"></i></span>
+                                    <input type="text" class="form-control" id="registerFirstName" required>
+                                </div>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="registerLastName" class="form-label fw-semibold">Tên</label>
+                                <div class="input-group">
+                                    <span class="input-group-text"><i class="bi bi-person"></i></span>
+                                    <input type="text" class="form-control" id="registerLastName" required>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="registerEmail" class="form-label fw-semibold">Email</label>
+                            <div class="input-group">
+                                <span class="input-group-text"><i class="bi bi-envelope"></i></span>
+                                <input type="email" class="form-control" id="registerEmail" required>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="registerPassword" class="form-label fw-semibold">Mật khẩu</label>
+                            <div class="input-group">
+                                <span class="input-group-text"><i class="bi bi-lock"></i></span>
+                                <input type="password" class="form-control" id="registerPassword" required>
+                                <button class="btn btn-outline-secondary" type="button" id="toggleRegisterPassword">
+                                    <i class="bi bi-eye"></i>
+                                </button>
+                            </div>
+                            <div class="form-text">Mật khẩu phải có ít nhất 8 ký tự</div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="confirmPassword" class="form-label fw-semibold">Xác nhận mật khẩu</label>
+                            <div class="input-group">
+                                <span class="input-group-text"><i class="bi bi-lock-fill"></i></span>
+                                <input type="password" class="form-control" id="confirmPassword" required>
+                            </div>
+                        </div>
+                        <div class="mb-3 form-check">
+                            <input type="checkbox" class="form-check-input" id="agreeTerms" required>
+                            <label class="form-check-label" for="agreeTerms">
+                                Tôi đồng ý với <a href="#" class="text-primary fw-semibold">Điều khoản sử dụng</a>
+                            </label>
+                        </div>
+                        <div class="d-grid">
+                            <button type="submit" class="btn btn-success btn-lg">
+                                <i class="bi bi-person-plus me-2"></i>Đăng ký
+                            </button>
+                        </div>
+                    </form>
+                    <div class="text-center mt-3">
+                        <p class="mb-0">Đã có tài khoản? 
+                            <a href="#" data-bs-dismiss="modal" data-bs-toggle="modal" data-bs-target="#loginModal" class="text-primary fw-semibold">Đăng nhập ngay</a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add Transaction Modal -->
+    <div class="modal fade" id="transactionModal" tabindex="-1" aria-labelledby="transactionModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content border-0 shadow-lg">
+                <div class="modal-header bg-success text-white border-0">
+                    <h5 class="modal-title fw-bold" id="transactionModalLabel">
+                        <i class="bi bi-cash-coin me-2"></i>Add Transaction
+                    </h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body p-4">
+                    <form id="transactionForm">
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="transactionDescription" class="form-label fw-semibold">Description *</label>
+                                <input type="text" class="form-control" id="transactionDescription" name="description" required placeholder="e.g., Lunch at McDonald's">
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="transactionAmount" class="form-label fw-semibold">Amount *</label>
+                                <div class="input-group">
+                                    <span class="input-group-text">$</span>
+                                    <input type="number" class="form-control" id="transactionAmount" name="amount" step="0.01" required placeholder="0.00">
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="transactionType" class="form-label fw-semibold">Type *</label>
+                                <select class="form-select" id="transactionType" name="type" required>
+                                    <option value="">Select Type</option>
+                                    <option value="expense">Expense</option>
+                                    <option value="income">Income</option>
+                                </select>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="transactionDate" class="form-label fw-semibold">Date *</label>
+                                <input type="date" class="form-control" id="transactionDate" name="date" required>
+                            </div>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="aiCategory" class="form-label fw-semibold">AI Predicted Category</label>
+                            <div class="input-group">
+                                <span class="input-group-text"><i class="bi bi-robot"></i></span>
+                                <input type="text" class="form-control" id="aiCategory" readonly>
+                                <button class="btn btn-outline-primary" type="button" id="reclassifyBtn">
+                                    <i class="bi bi-arrow-clockwise me-1"></i>Reclassify
+                                </button>
+                            </div>
+                            <div class="form-text">AI will automatically categorize your transaction based on description</div>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="transactionCategory" class="form-label fw-semibold">Category *</label>
+                            <select class="form-select" id="transactionCategory" name="category" required>
+                                <option value="">Select Category</option>
+                                <option value="food">Food & Dining</option>
+                                <option value="transport">Transportation</option>
+                                <option value="shopping">Shopping</option>
+                                <option value="entertainment">Entertainment</option>
+                                <option value="utilities">Utilities</option>
+                                <option value="health">Health & Medical</option>
+                                <option value="education">Education</option>
+                                <option value="other">Other</option>
+                            </select>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="transactionNotes" class="form-label fw-semibold">Notes</label>
+                            <textarea class="form-control" id="transactionNotes" name="notes" rows="2" placeholder="Additional notes..."></textarea>
+                        </div>
+                        
+                        <div class="d-flex gap-2 justify-content-end">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                            <button type="submit" class="btn btn-success">Save Transaction</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add/Edit Schedule Modal -->
+    <div class="modal fade" id="scheduleModal" tabindex="-1" aria-labelledby="scheduleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content border-0 shadow-lg">
+                <div class="modal-header bg-primary text-white border-0">
+                    <h5 class="modal-title fw-bold" id="scheduleModalLabel">
+                        <i class="bi bi-plus-circle me-2"></i>Add New Schedule
+                    </h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body p-4">
+                    <form id="scheduleForm">
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="scheduleName" class="form-label fw-semibold">Schedule Name *</label>
+                                <input type="text" class="form-control" id="scheduleName" name="name" required>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="scheduleCategory" class="form-label fw-semibold">Category *</label>
+                                <select class="form-select" id="scheduleCategory" name="category" required>
+                                    <option value="">Select Category</option>
+                                    <option value="utilities">Utilities</option>
+                                    <option value="subscriptions">Subscriptions</option>
+                                    <option value="health">Health</option>
+                                    <option value="entertainment">Entertainment</option>
+                                    <option value="other">Other</option>
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="scheduleAmount" class="form-label fw-semibold">Amount *</label>
+                                <input type="number" class="form-control" id="scheduleAmount" name="amount" step="0.01" required>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="scheduleCurrency" class="form-label fw-semibold">Currency</label>
+                                <select class="form-select" id="scheduleCurrency" name="currency">
+                                    <option value="USD">USD ($)</option>
+                                    <option value="VND">VND (₫)</option>
+                                    <option value="EUR">EUR (€)</option>
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="scheduleFrequency" class="form-label fw-semibold">Frequency *</label>
+                                <select class="form-select" id="scheduleFrequency" name="frequency" required>
+                                    <option value="">Select Frequency</option>
+                                    <option value="daily">Daily</option>
+                                    <option value="weekly">Weekly</option>
+                                    <option value="monthly">Monthly</option>
+                                    <option value="yearly">Yearly</option>
+                                </select>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="scheduleStatus" class="form-label fw-semibold">Status</label>
+                                <select class="form-select" id="scheduleStatus" name="status">
+                                    <option value="active">Active</option>
+                                    <option value="paused">Paused</option>
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div class="mb-3" id="weeklyDaysGroup" style="display: none;">
+                            <label class="form-label fw-semibold">Days of Week</label>
+                            <div class="d-flex flex-wrap gap-2">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" name="weeklyDays" value="monday" id="monday">
+                                    <label class="form-check-label" for="monday">Mon</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" name="weeklyDays" value="tuesday" id="tuesday">
+                                    <label class="form-check-label" for="tuesday">Tue</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" name="weeklyDays" value="wednesday" id="wednesday">
+                                    <label class="form-check-label" for="wednesday">Wed</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" name="weeklyDays" value="thursday" id="thursday">
+                                    <label class="form-check-label" for="thursday">Thu</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" name="weeklyDays" value="friday" id="friday">
+                                    <label class="form-check-label" for="friday">Fri</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" name="weeklyDays" value="saturday" id="saturday">
+                                    <label class="form-check-label" for="saturday">Sat</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" name="weeklyDays" value="sunday" id="sunday">
+                                    <label class="form-check-label" for="sunday">Sun</label>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="scheduleStartDate" class="form-label fw-semibold">Start Date *</label>
+                                <input type="date" class="form-control" id="scheduleStartDate" name="startDate" required>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="scheduleEndDate" class="form-label fw-semibold">End Date (Optional)</label>
+                                <input type="date" class="form-control" id="scheduleEndDate" name="endDate">
+                            </div>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="scheduleNotes" class="form-label fw-semibold">Notes / Description</label>
+                            <textarea class="form-control" id="scheduleNotes" name="notes" rows="3" placeholder="Optional description..."></textarea>
+                        </div>
+                        
+                        <div class="d-flex gap-2 justify-content-end">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                            <button type="submit" class="btn btn-primary">Save Schedule</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Schedule Detail Modal -->
+    <div class="modal fade" id="detailModal" tabindex="-1" aria-labelledby="detailModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content border-0 shadow-lg">
+                <div class="modal-header bg-info text-white border-0">
+                    <h5 class="modal-title fw-bold" id="detailModalLabel">
+                        <i class="bi bi-info-circle me-2"></i>Schedule Details
+                    </h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body p-4" id="detailContent">
+                    <!-- Detail content will be populated here -->
+                </div>
+                <div class="modal-footer border-0">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-warning" id="editScheduleBtn">Edit</button>
+                    <button type="button" class="btn btn-danger" id="deleteScheduleBtn">Delete</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Confirmation Modal -->
+    <div class="modal fade" id="confirmModal" tabindex="-1" aria-labelledby="confirmModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content border-0 shadow-lg">
+                <div class="modal-header bg-warning text-white border-0">
+                    <h5 class="modal-title fw-bold" id="confirmModalLabel">
+                        <i class="bi bi-exclamation-triangle me-2"></i>Confirm Action
+                    </h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body p-4">
+                    <p class="mb-0" id="confirmMessage">Are you sure you want to perform this action?</p>
+                </div>
+                <div class="modal-footer border-0">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-danger" id="confirmBtn">Confirm</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Container -->
+    <div class="toast-container position-fixed top-0 end-0 p-3" id="toastContainer"></div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Custom JS -->
+    <script src="script.js"></script>
+    
+    <!-- Chatbot TuDongChat -->
+    <script src="https://app.tudongchat.com/js/chatbox.js"></script>
+    <script>
+        const tudong_chatbox = new TuDongChat('1ICbI-QN42_nETFL-xNzc');
+        tudong_chatbox.initial();
+    </script>
+</body>
+</html>
