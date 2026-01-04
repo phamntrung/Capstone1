@@ -210,3 +210,9 @@ body.dark input {
 .chart-section {
   margin-top: 20px;
 }
+.footer-credit {
+  margin-top: 14px;
+  font-size: 12px;
+  color: #475569;
+  opacity: 0.85;
+}
