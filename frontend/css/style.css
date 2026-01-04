@@ -1,0 +1,212 @@
+/* =========================
+   RESET & BASE
+========================= */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  min-height: 100vh;
+  font-family: 'Inter', Arial, sans-serif;
+
+  /* Background image */
+  background-image: url("https://img.freepik.com/free-vector/gorgeous-clouds-background-with-blue-sky-design_1017-25501.jpg");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* =========================
+   MAIN CARD
+========================= */
+.weather-card {
+  width: 360px;
+  padding: 24px;
+  border-radius: 20px;
+
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(12px);
+
+  box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+  text-align: center;
+}
+
+/* =========================
+   CARD ACTIONS
+========================= */
+.card-actions {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 12px;
+}
+
+.icon-btn {
+  border: none;
+  background: #e5e7eb;
+  border-radius: 10px;
+  padding: 6px 10px;
+  cursor: pointer;
+}
+
+/* =========================
+   TITLE
+========================= */
+.card-title {
+  font-size: 22px;
+  margin-bottom: 16px;
+}
+
+/* =========================
+   SEARCH
+========================= */
+.search-box {
+  margin-bottom: 10px;
+}
+
+.search-box input {
+  width: 100%;
+  padding: 12px;
+  border-radius: 12px;
+  border: 1px solid #e5e7eb;
+  margin-bottom: 10px;
+  font-size: 14px;
+}
+
+.primary-btn {
+  width: 100%;
+  padding: 12px;
+  border-radius: 14px;
+  border: none;
+  background: linear-gradient(135deg, #2563eb, #4f46e5);
+  color: white;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+/* =========================
+   SECONDARY BUTTON
+========================= */
+.secondary-btn {
+  width: 100%;
+  padding: 10px;
+  margin-top: 6px;
+  border-radius: 12px;
+  border: none;
+  background: #0ea5e9;
+  color: white;
+  cursor: pointer;
+}
+
+/* =========================
+   LOADING
+========================= */
+.loading {
+  margin-top: 12px;
+  font-size: 14px;
+}
+
+.hidden {
+  display: none;
+}
+
+/* =========================
+   CURRENT WEATHER
+========================= */
+.weather-result {
+  margin-top: 16px;
+  font-size: 14px;
+}
+
+.weather-result h3 {
+  margin-bottom: 8px;
+}
+
+.weather-result img {
+  width: 90px;
+}
+
+/* =========================
+   FORECAST
+========================= */
+.forecast {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 16px;
+}
+
+.forecast .day {
+  width: 60px;
+  padding: 6px;
+  border-radius: 10px;
+  background: rgba(255,255,255,0.7);
+  font-size: 12px;
+}
+
+/* =========================
+   SEARCH HISTORY
+========================= */
+.search-history {
+  margin-top: 12px;
+}
+
+.search-history button {
+  margin: 4px;
+  padding: 6px 10px;
+  border-radius: 10px;
+  border: none;
+  background: #64748b;
+  color: white;
+  font-size: 12px;
+  cursor: pointer;
+}
+
+/* =========================
+   DARK MODE
+========================= */
+body.dark {
+  background-color: #020617;
+}
+
+body.dark .weather-card {
+  background: rgba(15, 23, 42, 0.9);
+  color: white;
+}
+
+body.dark input {
+  background: #020617;
+  color: white;
+  border-color: #334155;
+}
+
+/* =========================
+   CLOUD ANIMATION
+========================= */
+.cloud {
+  position: fixed;
+  top: 20%;
+  width: 200px;
+  height: 60px;
+  background: white;
+  border-radius: 50px;
+  opacity: 0.6;
+  animation: cloudMove 80s linear infinite;
+  z-index: -1;
+}
+
+.cloud-1 { top: 15%; }
+.cloud-2 { top: 35%; animation-duration: 120s; }
+
+@keyframes cloudMove {
+  from { left: -200px; }
+  to { left: 100%; }
+}
+/* ===== Chart ===== */
+.chart-section {
+  margin-top: 20px;
+}
