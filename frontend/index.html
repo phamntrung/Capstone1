@@ -22,6 +22,10 @@
     <div class="card-actions">
       <button class="icon-btn" onclick="toggleTheme()">🌙</button>
       <button class="icon-btn" onclick="toggleLang()">VN / EN</button>
+      <button class="icon-btn" onclick="toggleUnit()" title="°C / °F">°C / °F</button>
+      <button class="icon-btn" onclick="startVoiceSearch()" title="Voice search">🎤</button>
+    </div>
+
     </div>
 
     <!-- 🏷 Title -->
@@ -41,27 +45,29 @@
     </div>
 
     <!-- 📍 Location -->
-    <button class="secondary-btn" onclick="getByLocation()">
-      📍 Vị trí hiện tại
-    </button>
+   <button class="secondary-btn" onclick="getByLocation()" data-i18n="location">
+  📍 Vị trí hiện tại
+</button>
 
-    <!-- ⏳ Loading -->
-    <div id="loading" class="loading hidden">
-      ⏳ Đang tải dữ liệu...
-    </div>
+    <div id="loading" class="loading hidden" data-i18n="loading">
+  ⏳ Đang tải dữ liệu...
+</div>
 
     <!-- 🌡 Current weather -->
     <section id="result" class="weather-result"></section>
 
     <!-- 📅 Forecast -->
-    <section id="forecast" class="forecast"></section>
+   <h3 data-i18n="forecast">Dự báo 5 ngày</h3>
+<section id="forecast" class="forecast"></section>
 
     <section class="chart-section">
   <canvas id="tempChart" height="180"></canvas>
 </section>
 
     <!-- ⭐ History -->
-    <section id="history" class="search-history"></section>
+   <h3 data-i18n="history">Lịch sử tìm kiếm</h3>
+<section id="history" class="search-history"></section>
+
 
   </main>
 
