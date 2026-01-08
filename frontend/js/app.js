@@ -5,6 +5,7 @@ let lang = localStorage.getItem('lang') || 'vi';
 let unit = localStorage.getItem('unit') || 'C'; // 'C' | 'F'
 let tempChart = null;
 
+
 /* =====================================================
    I18N DICTIONARY
 ===================================================== */
@@ -22,8 +23,30 @@ const i18n = {
     wind: 'Gió',
     forecast: 'Dự báo 5 ngày',
     history: 'Lịch sử tìm kiếm',
-    chartLabel: 'Nhiệt độ'
+    chartLabel: 'Nhiệt độ',
+
+    // ⭐ THÊM TỪ ĐÂY
+    suggestion: {
+      rain: '🌧 Thời tiết xấu: Có mưa',
+      hot: '🥵 Thời tiết xấu: Nắng nóng gay gắt',
+      wind: '🌬 Thời tiết xấu: Gió mạnh',
+      good: '✅ Thời tiết hôm nay khá thuận lợi'
+    },
+    level: {
+      good: 'Tốt',
+      normal: 'Bình thường',
+      bad: 'Xấu'
+    },
+    activities: {
+      outdoor: '🏖️ Đi dạo, cà phê ngoài trời',
+      sport: '🏃‍♂️ Tập thể dục ngoài trời',
+      indoor: '🏠 Nên ở trong nhà',
+      relax: '📺 Xem phim, đọc sách',
+      rain: '☔ Mang theo áo mưa nếu ra ngoài',
+      hot: '🥤 Uống đủ nước, tránh nắng trưa'
+    }
   },
+
   en: {
     title: '🌤️ Weather',
     search: 'Search weather',
@@ -37,7 +60,28 @@ const i18n = {
     wind: 'Wind',
     forecast: '5-Day Forecast',
     history: 'Search history',
-    chartLabel: 'Temperature'
+    chartLabel: 'Temperature',
+
+    // ⭐ THÊM TỪ ĐÂY
+    suggestion: {
+      rain: '🌧 Bad weather: Rainy',
+      hot: '🥵 Bad weather: Extreme heat',
+      wind: '🌬 Bad weather: Strong wind',
+      good: '✅ Weather is quite favorable today'
+    },
+    level: {
+      good: 'Good',
+      normal: 'Normal',
+      bad: 'Bad'
+    },
+    activities: {
+      outdoor: '🏖️ Outdoor walk, coffee',
+      sport: '🏃‍♂️ Outdoor exercise',
+      indoor: '🏠 Stay indoors',
+      relax: '📺 Watch movies, read books',
+      rain: '☔ Bring a raincoat',
+      hot: '🥤 Stay hydrated, avoid midday heat'
+    }
   }
 };
 
@@ -351,4 +395,3 @@ function suggestActivities(score, data) {
 
   return activities;
 }
-  
