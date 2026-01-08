@@ -68,8 +68,18 @@ function applyLang() {
    THEME
 ===================================================== */
 function toggleTheme() {
-  document.body.classList.toggle('dark');
+  const isDark = document.body.classList.toggle('dark');
+  localStorage.setItem('theme', isDark ? 'dark' : 'light');
 }
+function applyTheme() {
+  const savedTheme = localStorage.getItem('theme');
+  if (savedTheme === 'dark') {
+    document.body.classList.add('dark');
+  } else {
+    document.body.classList.remove('dark');
+  }
+}
+
 
 /* =====================================================
    UNIT °C / °F
@@ -266,6 +276,7 @@ if (recognition) {
 ===================================================== */
 window.onload = () => {
   applyLang();
+  applyTheme();   // ⭐ FIX DARK MODE SAU KHI RELOAD
   renderHistory();
 };
 
